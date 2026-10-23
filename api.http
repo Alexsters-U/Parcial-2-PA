@@ -1,0 +1,37 @@
+@api = http://localhost:8085
+
+### Crear un enlace (201)
+POST {{api}}/api/links
+Content-Type: application/json
+
+{"originalUrl":"https://example.com/ruta?desde=parcial#seccion"}
+
+### Historial: MISS y luego HIT durante 30 segundos
+GET {{api}}/api/links
+
+### Primera visita: lectura MongoDB sin Redis ni caducidad visual (BYPASS)
+GET {{api}}/api/links?source=mongo
+
+### Familia activa
+GET {{api}}/api/config
+
+### Salud
+GET {{api}}/actuator/health
+
+### Cambiar el código por uno obtenido en POST: devuelve 302
+GET {{api}}/r/REEMPLAZAR
+
+### Protocolo inválido (400)
+POST {{api}}/api/links
+Content-Type: application/json
+
+{"originalUrl":"ftp://example.com"}
+
+### Vacío (400)
+POST {{api}}/api/links
+Content-Type: application/json
+
+{"originalUrl":""}
+
+### Código no válido (404)
+GET {{api}}/r/invalido!
